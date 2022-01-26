@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello VillageController!{% endblock %}
+
+{% block body %}
+
+<h1> Les articles et événements du moment</h1>
+
+<br>
+<section>
+
+
+    {% for article in articles %}
+    <br>
+    <br>
+<article> 
+    <h2>{{ article.title }}</h2>
+        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/Y') }} 
+            à {{ article.createdAt | date('H:i') }} dans la catégorie vie quotidienne</div>
+        <div class="content">
+            <img src="{{ article.image }}" alt="" >
+           {{ article.content | raw }}
+<a href="{{ path('village_show', {'id': article.id}) }}" class="btn btn-primary">Lire la suite</a>
+</div>
+</article>
+<br>
+{% endfor %}
+</section> 
+
+{% endblock %}
