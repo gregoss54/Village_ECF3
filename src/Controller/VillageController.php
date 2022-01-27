@@ -43,41 +43,42 @@ class VillageController extends AbstractController
 
     /**
      *@Route("/village/new", name= "village_create")
+     *@Route("/village/{id}/edit", name= "village_edit")
      */
 
-    public function create(Article $article = null, Request $request, EntityManagerInterface $manager)
+    public function form(Article $article = null, Request $request, EntityManagerInterface $manager)
     {
+        if (!$article) {
+            $article = new Article();
+        }
 
-        $form = $this->createFormBuilder($article)
-            ->add('title', TextType::class, [
-                'label' => 'Titre de l\'article',
-                'attr' => [
-                    'placeholder' => 'Votre titre'
 
-                ]
-            ])
-            ->add('content', TextareaType::class, [
-                'label' => 'Contenu de l\'article',
-                'attr' => [
-                    'placeholder' => 'Votre contenu'
 
-                ]
-            ])
-            ->add('image', TextType::class, [
-                'attr' => [
-                    'placeholder' => "URL image"
-                ]
-            ])
-            ->getForm();
+        $form = $this->createform(ArticleType::class, $article);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($article->getId()) {
+                $article->setCreatedAt(new \DateTime());
+            }
+
+
+            $manager->persist($article);
+            $manager->flush();
+
+            return $this->redirectToRoute('village_show', ['id' => $article->getId()]);
+        }
 
         return $this->render('village/create.html.twig', [
-            'formArticle' => $form->createView()
+            'formArticle' => $form->createView(),
+            'editMode' => $article->getId() !== null
         ]);
     }
     /**
      * @Route("/village/{id}", name="village_show")
      */
-    public function show(Article $article): Response
+    public function show(Article $article, Request $request, EntityManagerInterface $manager)
     {
         //$repo = $this->getDoctrine()->getRepository('Article::class');
 
