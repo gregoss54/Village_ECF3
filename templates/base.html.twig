@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Baldur Village!{% endblock %}</title>
         <link rel="stylesheet" 
         href="https://bootswatch.com/5/vapor/bootstrap.min.css">
         {% block stylesheets %}
@@ -29,11 +29,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path('village') }}">Articles</a>
+          <a class="nav-link" href="{{ path('village') }}">Faits Divers</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/village">Evenements</a>
-          </li>
+        
           <li class="nav-item">
             <a class="nav-link" href="{{ path('village_create') }}">Création</a>
             </li>
@@ -52,7 +50,7 @@
   </div>
 </nav>
 <div class="container">
-</div>
         {% block body %}{% endblock %}
+      </div>
     </body>
 </html>
